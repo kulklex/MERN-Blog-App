@@ -1,0 +1,7 @@
+.topRight, .topLeft {
+    flex: 3;
+}
+
+.topCenter{
+    flex: 6;
+}
