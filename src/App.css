@@ -6,3 +6,10 @@
     flex: 6;
 }
 
+.posts{
+    flex: 9
+}
+
+.sideBar{
+    flex: 3;
+}
