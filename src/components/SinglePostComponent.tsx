@@ -10,7 +10,7 @@ export default function SinglePostComponent({}: Props) {
         <img
           src="https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcSLMonX59blD7HuaOM8cz2yXdQ6TxfGjTfSSw8VX80jhw2O1NTQizDb5if6Trr0yG5L_hqrp3XmnerqSE7bs6G48RqHo9uWlpmi2A-oHxTC&usqp=CAc"
           alt=""
-          className="singlePostImg w-full h-72 rounded object-cover"
+          className="singlePostImg w-[90%] h-72 rounded object-cover"
         />
         <h1 className="singlePostCompTitle text-center m-2 text-lg font-[lora]">
           Lorem ipsum dolor sit amet
