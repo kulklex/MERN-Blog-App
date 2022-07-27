@@ -7,8 +7,11 @@
 }
 
 .posts{
+    flex: 9; 
+}
+
+.singlePostComponent{
     flex: 9;
-    
 }
 
 .sideBar{
