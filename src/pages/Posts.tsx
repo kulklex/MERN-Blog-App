@@ -1,6 +1,6 @@
 import React from 'react'
 import "../App.css"
-import BlogPost from './BlogPost'
+import BlogPost from '../components/BlogPost'
 
 
 export default function Posts() {

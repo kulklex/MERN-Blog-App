@@ -2,7 +2,7 @@ import "../App.css";
 
 export default function Navbar() {
   return (
-    <div>
+    <>
       <div className="w-full h-12 sticky top-0 flex items-center font-serif">
         <div className="topLeft">
           <div className="flex flex-row m-2 ">
@@ -95,6 +95,6 @@ export default function Navbar() {
           </svg>
         </div>
       </div>
-    </div>
+    </>
   );
 }
