@@ -8,13 +8,13 @@ export default function SinglePostComponent({}: Props) {
     <div className="singlePostComponent">
       <div className="singlePostCompWrapper p-5 pr-0">
         <img
-          src="https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcSLMonX59blD7HuaOM8cz2yXdQ6TxfGjTfSSw8VX80jhw2O1NTQizDb5if6Trr0yG5L_hqrp3XmnerqSE7bs6G48RqHo9uWlpmi2A-oHxTC&usqp=CAc"
+          src="https://images.unsplash.com/photo-1512223886638-d2914abf5df3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cXVvdGV8ZW58MHx8MHx8&auto=format&fit=crop&w=1000&q=60"
           alt=""
-          className="singlePostImg w-[90%] h-72 rounded object-cover"
+          className="singlePostImg w-4/5 h-1/2 md:h-full rounded-lg object-cover"
         />
         <h1 className="singlePostCompTitle text-center m-2 text-lg font-[lora]">
           Lorem ipsum dolor sit amet
-          <div className="singlePostCompEdit float-right flex">
+          <div className="singlePostCompEdit flex justify-end mr-10">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-6 singlePostCompIcon ml-2 cursor-pointer text-teal-500 w-6"
@@ -45,13 +45,13 @@ export default function SinglePostComponent({}: Props) {
             </svg>
              </div>
         </h1>
-        <div className="singlePostCompInfo flex mb-5 justify-between text-sm text-yellow-700 font-[Varela] italic">
+        <div className="singlePostCompInfo flex flex-col mb-5 justify-start text-sm text-yellow-700 font-[Varela] italic">
           <span className="singlePostCompAuthor">
             Author: <b>Hassan</b>
           </span>
-          <span className="singlePostCompDate">1 hour ago</span>
+          <span className="singlePostCompDate mr-10">1 hour ago</span>
         </div>
-        <p className="singlePostCompDesc text-sm  first-letter:text-lg first-letter:capitalize ">
+        <p className="singlePostCompDesc text-sm  first-letter:text-lg first-letter:capitalize mr-10">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
           minim veniam Lorem ipsum dolor sit amet, consectetur adipiscing elit,
