@@ -2,8 +2,7 @@ import React from 'react';
 import './App.css';
 import Navbar from './navbar/Navbar';
 import Home from './pages/Home';
-import SinglePost from './pages/SinglePost';
-
+import Write from './pages/Write';
 
 
 function App() {
@@ -14,8 +13,7 @@ function App() {
   return (
     <div className="App">
       <Navbar/>
-      <Home/>
-      <SinglePost/>
+      <Write/>
     </div>
   );
 }
