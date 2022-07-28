@@ -10,7 +10,7 @@
     flex: 9; 
 }
 
-.singlePostComponent{
+.singlePostComponent, .settingsWrapper{
     flex: 9;
 }
 
@@ -22,4 +22,8 @@
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
+}
+
+.settingsForm > label{
+    margin-top: 20px;
 }
