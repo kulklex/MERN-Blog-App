@@ -2,6 +2,7 @@ import React from "react";
 import { useLocation } from "react-router-dom";
 import "../App.css";
 import { Post } from "../models/postModel";
+import Page404 from "../pages/Page404/Page404";
 
 type Props = {
   post: Post[]
@@ -14,10 +15,9 @@ export default function SinglePostComponent({post}: Props) {
  
 
   if(!postFetched){
-    return (
-      <section className=" absolute w-[300px] h-[200px] z-[15] top-1/2 left-1/2 m-[-100px 0 0 -150px]">
-        <h1 className="text-red-800 font-extrabold text-9xl">Page not found!</h1>
-      </section>
+    return (<div className="singlePostComponent">
+      <Page404/>
+    </div>
     )
   }
 
