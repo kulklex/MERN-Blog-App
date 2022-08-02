@@ -18,7 +18,7 @@ function App() {
         <Route path="/login" element={<Login/>} />
         <Route path="/write" element={user ? <Write/> : <Login/>} />
         <Route path="/settings" element={user ? <Settings/> : <Login/>} />
-        <Route path="/post/:id" element={<SinglePost/>} />
+        <Route path="/posts/:id" element={<SinglePost/>} />
       </Routes>
     </BrowserRouter>
   );

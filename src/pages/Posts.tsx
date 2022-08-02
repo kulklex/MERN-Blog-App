@@ -1,17 +1,19 @@
 import React from 'react'
 import "../App.css"
 import BlogPost from '../components/BlogPost'
+import { Post } from '../models/postModel'
 
+interface Props{
+  posts: Post[]
+}
 
-export default function Posts() {
+export default function Posts({posts}: Props) {
+  console.log(posts)
   return (
     <div className='posts flex flex-wrap m-5'>
-      <BlogPost/>
-      <BlogPost/>
-      <BlogPost/>
-      <BlogPost/>
-      <BlogPost/>
-      <BlogPost/>
+      {posts.map(post => (
+        <BlogPost post={post} />
+      ))}
     </div>
   )
 }

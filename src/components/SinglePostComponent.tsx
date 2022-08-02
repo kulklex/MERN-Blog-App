@@ -1,19 +1,41 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import "../App.css";
+import axios from "axios";
+import { Post } from "../models/postModel";
 
 type Props = {};
 
 export default function SinglePostComponent({}: Props) {
+  const location = useLocation()
+  const path = location.pathname.split("/")[2]
+  const [postFetched, setPostFetched] = useState([])
+
+  useEffect(() => {
+    const getPost = () => {
+      axios.get(`/posts/${path}`)
+      .then((res) => {
+        setPostFetched(res.data.post)
+        console.log(res.data.post);
+        
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    }
+    getPost()
+  }, [path])
+
   return (
     <div className="singlePostComponent">
       <div className="singlePostCompWrapper p-5 pr-0">
         <img
           src="https://images.unsplash.com/photo-1512223886638-d2914abf5df3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cXVvdGV8ZW58MHx8MHx8&auto=format&fit=crop&w=1000&q=60"
           alt=""
-          className="singlePostImg w-4/5 h-1/2 md:h-full rounded-lg object-cover"
+          className="singlePostImg w-4/5 h-1/2 md:h-full md:ml-16 rounded-lg object-cover"
         />
+        {postFetched?.title}
         <h1 className="singlePostCompTitle text-center m-2 text-lg font-[lora]">
-          Lorem ipsum dolor sit amet
           <div className="singlePostCompEdit flex justify-end mr-10">
             <svg
               xmlns="http://www.w3.org/2000/svg"
