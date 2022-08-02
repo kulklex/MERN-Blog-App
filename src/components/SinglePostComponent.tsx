@@ -1,41 +1,36 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useLocation } from "react-router-dom";
 import "../App.css";
-import axios from "axios";
 import { Post } from "../models/postModel";
 
-type Props = {};
+type Props = {
+  post: Post[]
+};
 
-export default function SinglePostComponent({}: Props) {
+export default function SinglePostComponent({post}: Props) {
   const location = useLocation()
   const path = location.pathname.split("/")[2]
-  const [postFetched, setPostFetched] = useState([])
+  const postFetched = post.find(p => p._id === path)
+ 
 
-  useEffect(() => {
-    const getPost = () => {
-      axios.get(`/posts/${path}`)
-      .then((res) => {
-        setPostFetched(res.data.post)
-        console.log(res.data.post);
-        
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-    }
-    getPost()
-  }, [path])
+  if(!postFetched){
+    return (
+      <section className=" absolute w-[300px] h-[200px] z-[15] top-1/2 left-1/2 m-[-100px 0 0 -150px]">
+        <h1 className="text-red-800 font-extrabold text-9xl">Page not found!</h1>
+      </section>
+    )
+  }
+
 
   return (
     <div className="singlePostComponent">
       <div className="singlePostCompWrapper p-5 pr-0">
         <img
-          src="https://images.unsplash.com/photo-1512223886638-d2914abf5df3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cXVvdGV8ZW58MHx8MHx8&auto=format&fit=crop&w=1000&q=60"
-          alt=""
+          src={postFetched.photo} alt=""
           className="singlePostImg w-4/5 h-1/2 md:h-full md:ml-16 rounded-lg object-cover"
         />
-        {postFetched?.title}
         <h1 className="singlePostCompTitle text-center m-2 text-lg font-[lora]">
+          {postFetched.title}
           <div className="singlePostCompEdit flex justify-end mr-10">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -69,40 +64,16 @@ export default function SinglePostComponent({}: Props) {
         </h1>
         <div className="singlePostCompInfo flex flex-col mb-5 justify-start text-sm text-yellow-700 font-[Varela] italic">
           <span className="singlePostCompAuthor">
-            Author: <b>Hassan</b>
+            Author: <b>{postFetched.name}</b>
           </span>
-          <span className="singlePostCompDate mr-10">1 hour ago</span>
+          <span className="singlePostCompDate mr-10">{new Date(postFetched.createdAt).toDateString()}</span>
         </div>
         <p className="singlePostCompDesc text-sm  first-letter:text-lg first-letter:capitalize mr-10">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-          sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-          enim ad minim veniam Lorem ipsum dolor sit amet, consectetur
-          adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-          magna aliqua. Ut enim ad minim veniam Lorem ipsum dolor sit amet,
-          consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-          labore et dolore magna aliqua. Ut enim ad minim veniam Lorem ipsum
-          dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-          incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-          sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-          enim ad minim veniam Lorem ipsum dolor sit amet, consectetur
-          adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-          magna aliqua. Ut enim ad minim veniam Lorem ipsum dolor sit amet,
-          consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-          labore et dolore magna aliqua. Ut enim ad minim veniam Lorem ipsum
-          dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-          incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-          sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-          enim ad minim veniam
+          {postFetched.desc}
         </p>
       </div>
     </div>
   );
 }
+ 
+

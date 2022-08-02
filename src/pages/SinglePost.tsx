@@ -1,13 +1,27 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
+import axios from "axios"
 import SinglePostComponent from '../components/SinglePostComponent'
 import Sidebar from '../sidebar/Sidebar'
 
-type Props = {}
 
-export default function SinglePost({}: Props) {
+export default function SinglePost() {
+  const [post, setPosts] = useState([])
+  useEffect(() => {
+    const fetchedPosts =  () => {
+      axios.get("/posts")
+      .then((res) => {
+        const data = res.data 
+        setPosts(data.posts)
+      })
+      .catch((err) => {
+        console.error(err)
+      })
+    }
+    fetchedPosts()
+  })
   return (
     <div className='singlePost flex'>
-        <SinglePostComponent/>
+        <SinglePostComponent post={post}/>
         <Sidebar/>
     </div>
   )
