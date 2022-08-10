@@ -8,7 +8,7 @@ interface Props{
 }
 
 export default function Posts({posts}: Props) {
-  console.log(posts)
+
   return (
     <div className='posts flex flex-wrap m-5'>
       {posts.map(post => (

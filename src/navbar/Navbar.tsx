@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import "../App.css";
 
 export default function Navbar() {
-  const user = true
+  const user = false
   const admin = true
   return (
     <>

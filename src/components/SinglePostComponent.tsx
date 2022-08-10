@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import "../App.css";
 import { Post } from "../models/postModel";
@@ -64,7 +65,7 @@ export default function SinglePostComponent({post}: Props) {
         </h1>
         <div className="singlePostCompInfo flex flex-col mb-5 justify-start text-sm text-yellow-700 font-[Varela] italic">
           <span className="singlePostCompAuthor">
-            Author: <b>{postFetched.name}</b>
+            Author: <Link to={`/?user=${postFetched.email}`}><b>{postFetched.email}</b></Link>
           </span>
           <span className="singlePostCompDate mr-10">{new Date(postFetched.createdAt).toDateString()}</span>
         </div>
