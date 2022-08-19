@@ -7,7 +7,7 @@ import "../App.css"
 export default function Login() {
   const userRef = useRef();
   const passwordRef = useRef();
-  const { dispatch, isFetching } = useContext(Context);
+  const {user, dispatch, isFetching } = useContext(Context);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,7 +22,7 @@ export default function Login() {
       dispatch({ type: "LOGIN_FAILURE" });
     }
   };
-
+console.log(user)
   return (
     <div className="login flex flex-col justify-center items-center ">
       <span className="loginTitle  text-4xl font-bold font-mono italic">Login</span>
