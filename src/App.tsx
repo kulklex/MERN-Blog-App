@@ -4,11 +4,11 @@ import Navbar from "./navbar/Navbar";
 import Home from "./pages/Home";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import Login from "./pages/Login";
-import Write from "./pages/Write";
 import Settings from "./pages/Settings";
 import SinglePost from "./pages/SinglePost";
 import Page404 from "./pages/Page404/Page404";
 import Register from "./pages/Register";
+import Write from "./pages/Write";
 
 function App() {
   const user = true

@@ -8,10 +8,11 @@ type Props = {
 };
 
 export default function BlogPost({post}: Props) {
+  const PublicFolder = "localhost:3000/images/"
   return (
     <div className="post mx-20 my-3 flex flex-col justify-between">
       <img
-        src={post.photo} alt=""
+        src={PublicFolder + post.photo} alt=""
         className="postImage w-96 object-cover h-64 rounded"
       />
       <div className="postInfo w-96 flex items-center flex-col">

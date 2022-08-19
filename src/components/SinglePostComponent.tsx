@@ -13,7 +13,7 @@ export default function SinglePostComponent({post}: Props) {
   const location = useLocation()
   const path = location.pathname.split("/")[2]
   const postFetched = post.find(p => p._id === path)
- 
+  const PublicFolder = "localhost:3000/images/"
 
   if(!postFetched){
     return (<div className="singlePostComponent">
@@ -27,7 +27,7 @@ export default function SinglePostComponent({post}: Props) {
     <div className="singlePostComponent">
       <div className="singlePostCompWrapper p-5 pr-0">
         <img
-          src={postFetched.photo} alt=""
+          src={PublicFolder + postFetched.photo} alt=""
           className="singlePostImg w-4/5 h-1/2 md:h-full md:ml-16 rounded-lg object-cover"
         />
         <h1 className="singlePostCompTitle text-center m-2 text-lg font-[lora]">
