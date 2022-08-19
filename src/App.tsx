@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./App.css";
 import Navbar from "./navbar/Navbar";
 import Home from "./pages/Home";
@@ -9,9 +9,10 @@ import SinglePost from "./pages/SinglePost";
 import Page404 from "./pages/Page404/Page404";
 import Register from "./pages/Register";
 import Write from "./pages/Write";
+import { Context } from "./context/Context";
 
 function App() {
-  const user = true
+  const {user} = useContext(Context)
   return (
     <BrowserRouter>
     <Navbar />

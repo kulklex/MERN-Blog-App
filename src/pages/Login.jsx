@@ -1,14 +1,14 @@
 import axios from "axios";
-import { useContext, useRef } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../context/Context";
 import "../App.css"
 
 export default function Login() {
   const userRef = useRef();
   const passwordRef = useRef();
-  const {user, dispatch, isFetching } = useContext(Context);
-
+  const {dispatch, isFetching } = useContext(Context);
+  const navigate = useNavigate()
   const handleSubmit = async (e) => {
     e.preventDefault();
     dispatch({ type: "LOGIN_START" });
@@ -18,11 +18,11 @@ export default function Login() {
         password: passwordRef.current.value,
       });
       dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
+      navigate("/")
     } catch (err) {
       dispatch({ type: "LOGIN_FAILURE" });
     }
   };
-console.log(user)
   return (
     <div className="login flex flex-col justify-center items-center ">
       <span className="loginTitle  text-4xl font-bold font-mono italic">Login</span>

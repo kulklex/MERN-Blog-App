@@ -1,9 +1,11 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 import "../App.css";
+import { Context } from "../context/Context";
 
 export default function Navbar() {
-  const user = false
-  const admin = true
+  const {user} = useContext(Context)
+  const admin = user.user.isAdmin
   return (
     <>
       <div className="w-full h-12 sticky top-0 flex items-center font-serif">
@@ -72,7 +74,7 @@ export default function Navbar() {
             <li className="topListItem text-lg font-light"><Link to="/">HOME</Link></li>
             <li className="topListItem text-lg font-light"><Link to="/">ABOUT</Link></li>
             <li className="topListItem text-lg font-light"><Link to="/">CONTACT</Link></li>
-            <li className="topListItem text-lg font-light"><Link to="/write">WRITE</Link></li>
+            {admin && (<li className="topListItem text-lg font-light"><Link to="/write">WRITE</Link></li>)}
            {user && ( <li className="topListItem text-lg font-light"><Link to="/">LOGOUT</Link></li>)}
           </ul>
         </div>
