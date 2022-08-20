@@ -1,10 +1,10 @@
 import axios from 'axios'
-import React, {useContext, useRef, useState} from 'react'
+import React, {useState} from 'react'
 import { Link } from 'react-router-dom'
 import "../App.css"
 
 export default function Register() {
-    const [isSignUp, setIsSignUp] = useState(true)
+    const isSignUp = true
     const [firstName, setFirstName] = useState("")
     const [lastName, setLastName] = useState("")
     const [username, setUsername] = useState("")
@@ -24,19 +24,6 @@ export default function Register() {
             .catch((err) => {
                 console.log(err)
             })
-        } else {
-            // dispatch({type:"LOGIN_START"});
-            // try {
-            //     axios.post('/login', {username, password})
-            //     .then((res) => {
-            //         dispatch({type: "LOGIN_SUCCESS", payload: res.data})
-            //     })
-            //     .catch((err) => {
-            //         console.log(err)
-            //     })
-            // } catch (error) {
-            //     dispatch({type: "LOGIN_FAILURE"})
-            // }
         }
     }
   return (
