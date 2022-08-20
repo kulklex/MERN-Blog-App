@@ -1,15 +1,17 @@
 import axios from "axios";
 import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { Context } from "../context/Context";
 
 export default function Write() {
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [file, setFile] = useState("");
+  const navigate = useNavigate()
   const { user } = useContext(Context);
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const newPost = { title, desc, email: "hass" };
+    const newPost = { title, desc, email: user?.user.email };
 
     if (file) {
       const data = new FormData();
@@ -26,7 +28,7 @@ export default function Write() {
 
     try {
      const res = await axios.post("/posts", newPost)
-     window.location.replace(`/post/${res?.data?._id}`)
+      navigate(`/posts/${res.data.post._id}`)
     } catch (error) {
       console.log(error)
     }
