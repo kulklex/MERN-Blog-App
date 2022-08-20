@@ -4,7 +4,7 @@ import Sidebar from "../sidebar/Sidebar";
 import Posts from "./Posts";
 import axios from "axios"
 import { useLocation } from "react-router-dom";
-import Page404 from "./Page404/Page404";
+import Spinner from "./Spinner";
 
 export default function Home() {
   const [posts, setPosts] = useState([])
@@ -25,7 +25,7 @@ export default function Home() {
     fetchedPosts()
   }, [search])
 
-if(!posts || posts.length === 0) return <Page404/>
+if(!posts) return <Spinner/>
 
   return (
     <>
