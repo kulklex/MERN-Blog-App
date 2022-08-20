@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import "./App.css";
-import Navbar from "./navbar/Navbar";
 import Home from "./pages/Home";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import Login from "./pages/Login";
@@ -10,6 +9,7 @@ import Page404 from "./pages/Page404/Page404";
 import Register from "./pages/Register";
 import Write from "./pages/Write";
 import { Context } from "./context/Context";
+import Navbar from "./navbar/Navbar";
 
 function App() {
   const {user} = useContext(Context)
