@@ -18,6 +18,13 @@ export const LoginReducer = (state, action) => {
                 isFetching: false,
                 error: true
             } 
+        case "LOGOUT":
+            localStorage.clear()
+            return {
+                user: null,
+                isFetching: false,
+                error: false
+            }
         default:
             return state
     }
