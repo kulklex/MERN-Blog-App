@@ -3,9 +3,8 @@ import Sidebar from '../sidebar/Sidebar'
 import "../App.css"
 
 
-type Props = {}
 
-export default function Settings({}: Props) {
+export default function Settings() {
   return (
     <div className='settings flex'>
       <div className="settingsWrapper p-5">
