@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import Header from "../components/Header";
-import Sidebar from "../sidebar/Sidebar";
+import Sidebar from "../components/Sidebar";
 import Posts from "./Posts";
-import axios from "axios"
 import { useLocation } from "react-router-dom";
-import Spinner from "./Spinner";
+import Spinner from "../components/Spinner";
 
 export default function Home() {
   const [posts, setPosts] = useState([])

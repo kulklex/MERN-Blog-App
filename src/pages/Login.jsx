@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useContext, useRef } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../context/Context";
 import "../App.css"
@@ -8,6 +8,9 @@ export default function Login() {
   const userRef = useRef();
   const passwordRef = useRef();
   const {dispatch, isFetching } = useContext(Context);
+
+  const [loginError, setLoginError] = useState(false)
+
   const navigate = useNavigate()
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,13 +21,16 @@ export default function Login() {
         password: passwordRef.current.value,
       });
       dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
+      setLoginError(false)
       navigate("/")
     } catch (err) {
       dispatch({ type: "LOGIN_FAILURE" });
+      setLoginError(true)
     }
   };
   return (
     <div className="login flex flex-col justify-center items-center ">
+      {loginError && <span className='text-center text-red-500 mt-5 font-bold text-2xl'>An Error Occurred</span>}
       <span className="loginTitle  text-4xl font-bold font-mono italic">Login</span>
       <form className="loginForm mt-5 flex flex-col" onSubmit={handleSubmit}>
         <label>Email</label>

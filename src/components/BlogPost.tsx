@@ -8,7 +8,7 @@ type Props = {
 };
 
 export default function BlogPost({post}: Props) {
-  const PublicFolder = "localhost:3000/images/"
+  const PublicFolder = `${process.env.REACT_APP_SERVER_HOST_NAME}/images/`
   return (
     <div className="post mx-20 my-3 flex flex-col justify-between">
       <img

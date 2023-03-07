@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import axios from "axios"
 import SinglePostComponent from '../components/SinglePostComponent'
-import Sidebar from '../sidebar/Sidebar'
+import Sidebar from '../components/Sidebar'
 
 
 export default function SinglePost() {

@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 import "../App.css";
 import { Context } from "../context/Context";
 import { Post } from "../models/postModel";
-import Spinner from "../pages/Spinner";
+import Spinner from "./Spinner";
 
 type Props = {
   post: Post[];
@@ -15,7 +15,7 @@ export default function SinglePostComponent({ post }: Props) {
   const location = useLocation();
   const path = location.pathname.split("/")[2];
   const postFetched = post.find((p) => p._id === path);
-  const PublicFolder = "localhost:3000/images/";
+  const PublicFolder = `${process.env.REACT_APP_SERVER_HOST_NAME}/images/`
   const { user } = useContext(Context);
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
@@ -30,7 +30,7 @@ export default function SinglePostComponent({ post }: Props) {
   const handleUpdate = async () => {
     try {
       await axios.put(`/posts/${postFetched?._id}`, {
-        email: user?.user.email,
+        email: user?.user.email || user?.updatedUser.email,
         title,
         desc,
       });
@@ -41,7 +41,7 @@ export default function SinglePostComponent({ post }: Props) {
   const handleDelete = async () => {
     try {
       await axios.delete(`/posts/${postFetched?._id}`, {
-        data: { email: user?.user.email },
+        data: { email: user?.user.email || user?.updatedUser.email},
       });
       navigate("/");
     } catch (error) {
@@ -80,7 +80,7 @@ export default function SinglePostComponent({ post }: Props) {
           <h1 className="singlePostCompTitle text-center m-2 text-lg font-[lora]">
             {postFetched.title}
 
-            {postFetched.email === user?.user.email && (
+            {postFetched.email === (user?.user.email || user?.updatedUser)  && (
               <div className="singlePostCompEdit flex justify-end mr-10">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
