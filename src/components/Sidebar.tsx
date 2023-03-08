@@ -20,13 +20,13 @@ export default function Sidebar() {
     <div className="sideBar bg-white rounded-lg flex flex-col items-center">
       <div className="sideBarItem flex flex-col items-center">
         <Link to='/new-category'>
-          <span className="sideBarTitle border-t-2  m-2 p-1 w-[80%]">
+          <span className="sideBarTitle border-t-2 w-[80%]">
             CATEGORIES
           </span>
         </Link>
         <ul className="sideBarList list-none mb-4">
           {cats.map((category) => (
-            <Link to={`/?cat=${category.name}`}><li key={category._id} className="sideBarListItem inline-block w-1/2 mt-4 cursor-pointer">{category.name}</li></Link>
+            <Link key={category._id} to={`/?cat=${category.name}`}><li  className="sideBarListItem inline-block w-1/2 mt-4 cursor-pointer">{category.name}</li></Link>
           ))}
         </ul>
       </div>
