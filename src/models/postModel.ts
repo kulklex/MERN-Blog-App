@@ -1,7 +1,7 @@
 export interface Post{
     _id: string
     _v?: number
-    categories: [string]
+    category: string
     desc: string
     email: string
     name?: string

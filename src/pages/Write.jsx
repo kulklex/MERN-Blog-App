@@ -1,17 +1,30 @@
+import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
-import React, { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../context/Context";
+import {MdCreate} from 'react-icons/md'
+
+
 
 export default function Write() {
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [file, setFile] = useState("");
+  const [category, setCategory] = useState('');
+
   const navigate = useNavigate();
   const { user } = useContext(Context);
+
+  
+  const [fetchedCategories, setFetchedCategories] = useState([]);
+  useEffect(() => {
+    axios.get('/categories').then((res) => setFetchedCategories(res.data))
+    
+  })  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const newPost = { title, desc, email: user?.user.email };
+    const newPost = { title, desc, category, email: user?.user.email };
 
     if (file) {
       const data = new FormData();
@@ -35,6 +48,7 @@ export default function Write() {
   };
   return (
     <div className="write pt-14">
+    
       {file && (
         <img
           src={URL.createObjectURL(file)}
@@ -42,8 +56,18 @@ export default function Write() {
           className="writeImg flex items-center justify-center mx-10 w-[90%] h-[80%] md:h-[350px] rounded-lg object-cover"
         />
       )}
-
-      <form className="writeForm relative" onSubmit={handleSubmit}>
+      <form className="writeForm  relative mt-3" onSubmit={handleSubmit}>
+        <div className="flex  m-6 ml-[39%] text-blue-300">
+          <Link to={`/new-category`}>
+            Create a new category 
+          </Link>{"  "}
+          <MdCreate className="mt-1 ml-1"/>
+        </div>
+        <select onChange={(e) => setCategory(e.target.value)} className="flex items-center justify-center ml-[40%] bg-gray-500 h-10 rounded-md">
+           {fetchedCategories.map((category, index) => (
+              <option key={index} value={category?.name} className="flex items-center justify-center text-gray-100">{category?.name}</option>
+            ))}
+        </select>
         <div className="writeFormGroup ml-40  flex  items-center  md:my-8">
           <label htmlFor="fileInput">
             <svg
@@ -77,26 +101,31 @@ export default function Write() {
           <input
             type="text"
             id="textInput"
-            className="writeInput border-none focus:outline-none text-xl font-serif p-5 w-[80%] md:w-[50%]"
+            className="writeInput border-b-4 border-blue-50 focus:outline-none text-xl font-serif p-5 w-[80%] md:w-[50%]"
             autoFocus={true}
             placeholder="Title"
+            required
             onChange={(e) => setTitle(e.target.value)}
           />
+ 
         </div>
         <div className="writFormGroup ml-40  flex items-center">
           <textarea
+            required
             placeholder="Create Story..."
             id=""
-            className="writeText border-none focus:outline-none  text-lg italic p-5 w-[80%] h-[100vh] md:my-8"
+            className="writeText border-4 border-blue-50 focus:outline-none  text-lg italic p-5 w-[80%] h-[50vh] md:my-8"
             onChange={(e) => setDesc(e.target.value)}
           ></textarea>
         </div>
-        <button
-          type="submit"
-          className="writeSubmit top-5 right-[50px] md:right-40  absolute bg-blue-500 p-1 text-white border rounded-md w-1/6 md:w-1/12"
-        >
-          Publish
-        </button>
+        <div className="flex items-center justify-center">
+          <button
+            type="submit"
+            className="flex items-center justify-center bg-blue-500 p-2 text-white border rounded-md w-1/6 md:w-1/12"
+          >
+            Publish
+          </button>
+        </div>
       </form>
     </div>
   );
