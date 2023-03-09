@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import axios from "axios"
 import SinglePostComponent from '../components/SinglePostComponent'
-import Sidebar from '../components/Sidebar'
 
 
 export default function SinglePost() {
@@ -19,10 +18,7 @@ export default function SinglePost() {
     }
     fetchedPosts()
   })
-  return (
-    <div className='singlePost flex'>
-        <SinglePostComponent post={post}/>
-        <Sidebar/>
-    </div>
-  )
+  return (<>
+    <SinglePostComponent post={post}/>
+  </>)
 }

@@ -6,19 +6,22 @@ import axios from "axios"
 
 
 export default function Settings() {
-  const {user, dispatch} = useContext(Context)
+  const {user:userFetched, dispatch} = useContext(Context)
   const [file, setFile] = useState(null);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(false);
+
+
+
   const PublicFolder = `${process.env.REACT_APP_SERVER_HOST_NAME}/images/`
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     dispatch({type: "UPDATE_START"})
-    const updatedUser = {
-      userId: user.user._id || user?.updatedUser._id,  username, email, password
+    const user = {
+      userId: userFetched?.user._id,  username, email,
     }
     
     if (file) {
@@ -26,20 +29,21 @@ export default function Settings() {
       const filename = Date.now() + file.name;
       data.append("name", filename);
       data.append("file", file);
-      updatedUser.profilePic = filename;
+      user.profilePic = filename;
       try {
         await axios.post("/upload", data);
-      } catch (err) {}
+      } catch (err) {
+        console.error(err)
+      }
     }
     try {
-      const res = await axios.put("/users/" + user.user._id, updatedUser);
+      const res = await axios.put("/users/" + userFetched?.user._id, user)
       setSuccess(true);
       dispatch({ type: "UPDATE_SUCCESS", payload: res.data });
-      setEmail('');
-      setPassword('');
-      setUsername('');
-      window.location.reload()
-    } catch (err) {
+      console.log(res.data)
+      window.location.reload()  
+      } catch (err) {
+      setError(true)
       console.log(err)
       dispatch({ type: "UPDATE_FAILURE" });
     }
@@ -47,15 +51,15 @@ export default function Settings() {
   return (
     <div className='settings flex'>
       <div className="settingsWrapper p-5">
-        <div className="settingsTitle flex items-center justify-end">
-          <span className="settingsDeleteTitle text-red-600 cursor-pointer">Delete Account</span>
+        <div className="settingsTitle flex items-center justify-center">
+          { error && <span className="settingsDeleteTitle text-red-600 cursor-pointer">Fill in all fields </span>  }
         </div>
        
         <form className="settingsForm flex flex-col" onSubmit={handleSubmit}>
           <label htmlFor="profilePic" >Profile Picture</label>
           <div className="mb-2 settingsProfilePicDiv flex items-center my-2 mx-0">
-            { user?.user &&  
-              <img src={ file ? URL.createObjectURL(file) : PublicFolder + user?.user?.profilePic } alt=""
+            { userFetched?.user &&  
+              <img src={ file ? URL.createObjectURL(file) : PublicFolder + userFetched?.user?.profilePic } alt=""
               className="settingsProfilePic w-20 h-20 object-cover rounded-2xl" /> 
             }
 
@@ -67,11 +71,9 @@ export default function Settings() {
             <input type="file"  id="fileInput" className='hidden' onChange={(e) => setFile(e.target.files[0])}/>
           </div>
           <label htmlFor="">Username</label>
-          <input className='border-b my-3 mx-0' type="text" placeholder={user.user?.username} onChange={(e) => setUsername(e.target.value)}/>
+          <input className='border-b my-3 mx-0' required type="text" placeholder={userFetched?.user?.username} onChange={(e) => setUsername(e.target.value)}/>
           <label htmlFor="">Email</label>
-          <input className=' border-b my-3 mx-0' type="email" placeholder={user.user?.email} onChange={(e) => setEmail(e.target.value)}/>
-          <label htmlFor="">Password</label>
-          <input className='border-b my-3 mx-0' type="password" onChange={(e) => {setPassword(e.target.value)}}/>
+          <input className=' border-b my-3 mx-0' required type="email"  placeholder={userFetched.user?.email} onChange={(e) => setEmail(e.target.value)}/>
           <button type="submit" className="settingsSubmit   self-center w-20 md:w-40 items-center rounded-lg text-white p-2 mt-5 cursor-pointer bg-blue-600">
             Update
           </button>

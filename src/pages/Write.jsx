@@ -12,6 +12,8 @@ export default function Write() {
   const [file, setFile] = useState("");
   const [category, setCategory] = useState('');
 
+  const [error, setError] = useState(false);
+
   const navigate = useNavigate();
   const { user } = useContext(Context);
 
@@ -40,8 +42,12 @@ export default function Write() {
     }
 
     try {
-      const res = await axios.post("/posts", newPost);
-      navigate(`/posts/${res.data.post._id}`);
+      if (newPost.category !== 'Pick a category') {
+        const res = await axios.post("/posts", newPost);
+        navigate(`/posts/${res.data.post._id}`);
+      } else {
+        setError(true)
+      }
     } catch (error) {
       console.log(error);
     }
@@ -56,14 +62,19 @@ export default function Write() {
           className="writeImg flex items-center justify-center mx-10 w-[90%] h-[80%] md:h-[350px] rounded-lg object-cover"
         />
       )}
-      <form className="writeForm  relative mt-3" onSubmit={handleSubmit}>
-        <div className="flex  m-6 ml-[39%] text-blue-300">
+      <div className="settingsTitle flex items-center justify-center">
+          { error && <span className="settingsDeleteTitle text-red-600 cursor-pointer">Choose a category </span>  }
+        </div>
+      <div className="flex  m-6 ml-[39%] text-blue-300">
           <Link to={`/new-category`}>
             Create a new category 
           </Link>{"  "}
           <MdCreate className="mt-1 ml-1"/>
-        </div>
-        <select onChange={(e) => setCategory(e.target.value)} className="flex items-center justify-center ml-[40%] bg-gray-500 h-10 rounded-md">
+      </div>
+      <form className="writeForm  relative mt-3" onSubmit={handleSubmit}>
+        
+        <select required onChange={(e) => setCategory(e.target.value)} className="flex items-center justify-center ml-[40%] bg-gray-500 h-10 rounded-md">
+           <option disabled>Pick a category</option>
            {fetchedCategories.map((category, index) => (
               <option key={index} value={category?.name} className="flex items-center justify-center text-gray-100">{category?.name}</option>
             ))}
