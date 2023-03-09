@@ -10,9 +10,9 @@ interface Props{
 export default function Posts({posts}: Props) {
 
   return (
-    <div className='posts flex flex-wrap m-5'>
+    <div className='posts flex flex-wrap m-2'>
       {posts.map(post => (
-        <BlogPost post={post} />
+        <BlogPost key={post?._id} post={post} />
       ))}
     </div>
   )

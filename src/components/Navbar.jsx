@@ -9,26 +9,32 @@ export default function Navbar() {
 
 
   const handleLogout = () => {
-    dispatch({type: "LOGOUT"})
+    if (window.confirm("You're about to logout")) {
+      dispatch({type: "LOGOUT"})
+    }
   }
   return (
     <>
-      <div className="w-full h-12 sticky top-0 flex items-center font-serif">
-        <div className="hidden lg:block topLeft">
-          <div className="headerTitles flex flex-col items-center font-serif text-gray-600">
-              <span className="headerTitleLg  top-[20%] text-3xl">Blog</span>
-          </div>
+      <div className="w-full h-12 sticky top-0 flex items-center font-serif z-[999]">
+        <div className="topLeft ml-2">
+          <i className="topIcon text-blue-400 text-lg mr-[10px] cursor-pointer fab fa-facebook-square"></i>
+          <i className="topIcon text-blue-500 text-lg mr-[10px] cursor-pointer fab fa-twitter-square"></i>
+          <i className="topIcon text-[#444] text-lg mr-[10px] cursor-pointer fab fa-pinterest-square"></i>
+          <i className="topIcon text-red-600 text-lg mr-[10px] cursor-pointer fab fa-instagram"></i>
+          <i className="topIcon text-blue-400 text-lg mr-[10px] cursor-pointer fab fa-linkedin"></i>
         </div>
-        <div className="topCenter m-1">
-          <ul className="topList flex justify-between md:m-0 md:p-0 list-none">
-            <li className="topListItem text-lg font-light"><Link to="/">HOME</Link></li>
-            <li className="topListItem text-lg font-light"><Link to="/">ABOUT</Link></li>
-            <li className="topListItem text-lg font-light"><Link to="/">CONTACT</Link></li>
-            {user && (<li className="topListItem text-lg font-light"><Link to="/write">WRITE</Link></li>)}
-           {user && ( <li onClick={handleLogout} className="topListItem text-lg font-light cursor-pointer">LOGOUT</li>)}
+        <div className="topCenter">
+          <ul className="topList flex justify-center m-0 p-0 list-none">
+            <li className="topListItem text-lg font-light mr-5"><Link to="/">HOME</Link></li>
+            <li className="topListItem text-lg font-light mr-5"><Link to="/">ABOUT</Link></li>
+            {user && (<li className="topListItem text-lg font-light mr-5"><Link to="/write">WRITE</Link></li>)}
+            {user && ( <li onClick={handleLogout} className="topListItem text-lg font-light mr-5 cursor-pointer">LOGOUT</li>)}
+            
+            {!user && (<li className="topListItem text-lg font-light mr-5"><Link to="/login">LOGIN</Link></li>)}            
+            {!user && (<li className="topListItem text-lg font-light mr-5"><Link to="/register">REGISTER</Link></li>)}
           </ul>
         </div>
-        <div className="md:topRight flex flex-row items-center justify-center">
+        <div className="topRight flex flex-[3] items-center justify-center">
          {user ? (
          <Link to="/settings">
          <img
@@ -36,7 +42,8 @@ export default function Navbar() {
             src={PublicFolder + user?.user?.profilePic} alt=""
           />
           </Link>
-          ) : (<Link className="link" to='/login'>LOGIN</Link>)}
+          ) : (<>
+          </>)}
           
         </div>
       </div>

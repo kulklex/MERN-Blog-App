@@ -1,11 +1,12 @@
 import axios from "axios";
 import React, { useContext, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import "../App.css";
 import { Context } from "../context/Context";
 import { Post } from "../models/postModel";
 import Spinner from "./Spinner";
+import Sidebar from "./Sidebar";
 
 type Props = {
   post: Post[];
@@ -15,7 +16,7 @@ export default function SinglePostComponent({ post }: Props) {
   const location = useLocation();
   const path = location.pathname.split("/")[2];
   const postFetched = post.find((p) => p._id === path);
-  const PublicFolder = `${process.env.REACT_APP_SERVER_HOST_NAME}/images/`
+  const PublicFolder = `${process.env.REACT_APP_SERVER_HOST_NAME}/images/`;
   const { user } = useContext(Context);
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
@@ -30,7 +31,7 @@ export default function SinglePostComponent({ post }: Props) {
   const handleUpdate = async () => {
     try {
       await axios.put(`/posts/${postFetched?._id}`, {
-        email: user?.user.email || user?.updatedUser.email,
+        email: user?.user.email,
         title,
         desc,
       });
@@ -38,16 +39,18 @@ export default function SinglePostComponent({ post }: Props) {
     } catch (error) {}
   };
 
-  const handleDelete = async () => {
+const handleDelete = async () => {
+  if (window.confirm('Are you sure you want to delete this post?')) {
     try {
       await axios.delete(`/posts/${postFetched?._id}`, {
-        data: { email: user?.user.email || user?.updatedUser.email},
+        data: { email: user?.user.email },
       });
       navigate("/");
     } catch (error) {
       console.log(error);
     }
-  };
+  }
+};
 
   if (!postFetched) {
     return (
@@ -58,33 +61,54 @@ export default function SinglePostComponent({ post }: Props) {
   }
 
   return (
-    <div className="singlePostComponent">
-      <div className="singlePostCompWrapper flex flex-col p-5 pr-0">
+    <div className="singlePostComponent m-5">
+      <div className="singlePostWrapper ">
         <img
-          src={PublicFolder + postFetched.photo}
+          src={PublicFolder + postFetched?.photo}
           alt=""
-          className="singlePostImg w-4/5 h-1/2 md:h-full md:ml-16 rounded-lg object-cover"
+          className="singlePostImg w-screen h-auto lg:max-h-[900px] rounded-lg border-r-4 object-cover"
         />{" "}
+      </div>
+      <div className="w-full">
         {updateMode ? (
-          <input
-            type="text"
-            value={title}
-            className=" text-xl m-2 font-serif text-center focus:outline-none"
-            autoFocus
-            onChange={(event: React.FormEvent<HTMLInputElement>) => {
-              event.preventDefault();
-              setTitle(event.currentTarget.value);
-            }}
-          />
+          <>
+            <input
+              type="text"
+              value={title}
+              className=" text-xl m-2 font-serif text-center focus:outline-none"
+              autoFocus
+              onChange={(event: React.FormEvent<HTMLInputElement>) => {
+                event.preventDefault();
+                setTitle(event.currentTarget.value);
+              }}
+            />
+            <div className="flex flex-col justify-center text-center">
+              <textarea
+                className="writeText border-4 border-blue-50 focus:outline-none  text-lg italic p-5 w-[80%] h-[50vh] md:my-8"
+                value={desc}
+                onChange={(event: React.FormEvent<HTMLTextAreaElement>) => {
+                  event.preventDefault();
+                  setDesc(event.currentTarget.value);
+                }}
+              />
+              <button
+                className="singlePostCompButton flex flex-col my-14 bg-blue-500 p-1 text-white border rounded-md justify-center object-center items-center self-center text-center"
+                onClick={handleUpdate}
+              >
+                Update
+              </button>
+            </div>
+          </>
         ) : (
-          <h1 className="singlePostCompTitle text-center m-2 text-lg font-[lora]">
-            {postFetched.title}
-
-            {postFetched.email === (user?.user.email || user?.updatedUser)  && (
-              <div className="singlePostCompEdit flex justify-end mr-10">
+          <div className="">
+            <h1 className="singlePostCompTitle flex items-center justify-center m-2 text-4xl font-serif text-gray-500">
+              {postFetched.title}
+            </h1>
+            {postFetched.email === user?.user.email && (
+              <div className="singlePostCompEdit flex justify-center items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 singlePostCompIcon ml-2 cursor-pointer text-teal-500 w-6"
+                  className="h-6 singlePostCompIcon ml-4 cursor-pointer text-teal-500 w-6"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -102,7 +126,7 @@ export default function SinglePostComponent({ post }: Props) {
                 </svg>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6 singlePostCompIcon ml-2 cursor-pointer text-red-500"
+                  className="h-6 w-6 singlePostCompIcon ml-4 cursor-pointer text-red-500"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -117,41 +141,20 @@ export default function SinglePostComponent({ post }: Props) {
                 </svg>
               </div>
             )}
-          </h1>
-        )}
-        <div className="singlePostCompInfo flex flex-col mb-5 justify-start text-sm text-yellow-700 font-[Varela] italic">
-          <span className="singlePostCompAuthor">
-            Author:{" "}
-            <Link to={`/?user=${postFetched.email}`}>
-              <b>{postFetched.email}</b>
-            </Link>
-          </span>
-          <span className="singlePostCompDate mr-10">
-            {new Date(postFetched.createdAt).toDateString()}
-          </span>
-        </div>
-        {updateMode ? (
-          <div className="flex flex-col justify-center text-center">
-            <textarea
-              className="text-sm  first-letter:text-lg first-letter:capitalize mr-10  border-none focus:outline-none  p-5 w-[80%] h-[100vh] md:my-8"
-              value={desc}
-              onChange={(event: React.FormEvent<HTMLTextAreaElement>) => {
-                event.preventDefault();
-                setDesc(event.currentTarget.value);
-              }}
-            />
-            <button
-              className="singlePostCompButton flex flex-col my-14 bg-blue-500 p-1 text-white border rounded-md justify-center object-center items-center self-center text-center"
-              onClick={handleUpdate}
-            >
-              Update
-            </button>
-          </div>
-        ) : (
-          <div>
-            <p className="singlePostCompDesc text-sm  first-letter:text-lg first-letter:capitalize mr-10">
-              {postFetched.desc}
-            </p>
+            <div className="singlePostCompInfo flex justify-center items-center flex-col mb-5 m-2 text-yellow-700 font-[Varela] italic">
+              <span className="singlePostCompAuthor">
+                Author: <b>{postFetched.email}</b>
+              </span>
+              <span className="singlePostCompDate mr-10">
+                {new Date(postFetched.createdAt).toDateString()}
+              </span>
+            </div>
+            <div className="flex flex-row">
+              <div className="singlePostCompDesc text-sm first-letter:text-lg first-letter:capitalize mr-10 leading-6">
+                 {postFetched.desc.split(",")} 
+              </div>
+              <Sidebar/>
+            </div>
           </div>
         )}
       </div>
